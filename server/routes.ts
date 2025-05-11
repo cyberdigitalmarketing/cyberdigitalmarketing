@@ -5,6 +5,7 @@ import { contactMessageSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import { emailService } from "./emailService";
 import { mockEmailService } from "./mockEmailService";
+import { directEmailService } from "./directEmailService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API routes
@@ -24,41 +25,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Save the contact message
       const contactMessage = await storage.createContactMessage(validation.data);
       
-      // Check if email credentials are set
-      const emailConfigured = process.env.EMAIL_USER && process.env.EMAIL_PASSWORD;
+      // No need to check email credentials anymore as we're using direct email service
       
-      // Send email notification
-      let emailSent = false;
-      
-      // First try the real email service if configured
-      if (emailConfigured) {
-        try {
-          emailSent = await emailService.sendContactNotification(contactMessage);
-          console.log('Email notification status:', emailSent ? 'sent' : 'failed');
-        } catch (emailError) {
-          console.error('Error sending email notification:', emailError);
-          // Will fall back to mock email service
-          emailSent = false;
-        }
-      } else {
-        console.log('Email not configured with real service. Using fallback.');
-      }
-      
-      // If real email service failed or isn't configured, use the mock service
-      if (!emailSent) {
-        try {
-          await mockEmailService.sendContactNotification(contactMessage);
-          console.log('Mock email notification logged to console');
-          emailSent = true; // Mark as "sent" since we successfully logged it
-        } catch (mockError) {
-          console.error('Error with mock email notification:', mockError);
-        }
+      // Use direct email service to log the contact details in a readable format
+      try {
+        await directEmailService.sendContactNotification(contactMessage);
+        console.log('Contact submission recorded successfully');
+      } catch (error) {
+        console.error('Error recording contact submission:', error);
       }
       
       return res.status(200).json({
         message: "Message sent successfully",
-        data: contactMessage,
-        emailSent: emailSent
+        data: contactMessage
       });
     } catch (error) {
       console.error('Error saving contact message:', error);
