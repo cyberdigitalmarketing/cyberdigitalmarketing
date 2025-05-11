@@ -80,17 +80,7 @@ export default function ContactForm() {
               Ready to transform your digital presence? Fill out the form, and one of our experts will get back to you within 24 hours to discuss how we can help you achieve your business goals.
             </p>
             
-            <div className="space-y-6 mb-8">
-              <div className="flex items-start">
-                <div className="w-12 h-12 bg-[#3a1d96]/10 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
-                  <i className="fas fa-map-marker-alt text-[#3a1d96]"></i>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800 mb-1">Visit Us</h4>
-                  <p className="text-gray-600">123 Digital Avenue, Suite 200<br />Tech City, CA 12345</p>
-                </div>
-              </div>
-              
+            <div className="space-y-6 mb-8">              
               <div className="flex items-start">
                 <div className="w-12 h-12 bg-[#3a1d96]/10 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
                   <i className="fas fa-envelope text-[#3a1d96]"></i>
@@ -98,16 +88,6 @@ export default function ContactForm() {
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Email Us</h4>
                   <p className="text-gray-600">hello@cyberdigitalmarketing.com</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start">
-                <div className="w-12 h-12 bg-[#3a1d96]/10 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
-                  <i className="fas fa-phone-alt text-[#3a1d96]"></i>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-800 mb-1">Call Us</h4>
-                  <p className="text-gray-600">(555) 123-4567</p>
                 </div>
               </div>
             </div>

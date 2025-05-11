@@ -60,17 +60,13 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-6">Contact Us</h4>
             <ul className="space-y-3 text-gray-400">
-              <li className="flex items-start">
-                <i className="fas fa-map-marker-alt mt-1 mr-3"></i>
-                <span>123 Digital Avenue, Suite 200<br />Tech City, CA 12345</span>
-              </li>
               <li className="flex items-center">
                 <i className="fas fa-envelope mr-3"></i>
                 <span>hello@cyberdigitalmarketing.com</span>
               </li>
               <li className="flex items-center">
-                <i className="fas fa-phone-alt mr-3"></i>
-                <span>(555) 123-4567</span>
+                <i className="fas fa-globe mr-3"></i>
+                <span>www.cyberdigitalmarketing.com</span>
               </li>
             </ul>
           </div>
