@@ -39,23 +39,34 @@ export default function ContactForm() {
     }
   });
 
+  const [isSuccess, setIsSuccess] = useState(false);
+  
   const onSubmit = async (data: ContactFormValues) => {
     setIsSubmitting(true);
+    setIsSuccess(false);
+    
     try {
-      await apiRequest('POST', '/api/contact', data);
+      const response = await apiRequest('POST', '/api/contact', data);
+      
+      console.log('Contact form submission successful:', response);
+      
       toast({
         title: "Message sent successfully!",
         description: "We'll get back to you within 24 hours.",
         variant: "default",
       });
+      
       form.reset();
+      setIsSuccess(true);
+      
     } catch (error) {
+      console.error('Error submitting contact form:', error);
+      
       toast({
         title: "Error sending message",
-        description: "Please try again later or contact us directly.",
+        description: "Please try again later or contact us directly via email.",
         variant: "destructive",
       });
-      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -114,18 +125,72 @@ export default function ContactForm() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            {isSuccess ? (
+              <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <i className="fas fa-check text-green-500 text-2xl"></i>
+                </div>
+                <h3 className="text-2xl font-bold mb-4">Message Sent!</h3>
+                <p className="text-gray-600 mb-6">
+                  Thank you for reaching out to us. We've received your message and will get back to you within 24 hours.
+                </p>
+                <Button 
+                  className="bg-gradient-primary hover:bg-[#2a1570] text-white font-medium px-6 py-3 rounded-lg"
+                  onClick={() => setIsSuccess(false)}
+                >
+                  Send Another Message
+                </Button>
+              </div>
+            ) : (
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-700 font-medium">Full Name</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="John Doe" 
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-700 font-medium">Email Address</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="john@example.com" 
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
                   <FormField
                     control={form.control}
-                    name="name"
+                    name="company"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-700 font-medium">Full Name</FormLabel>
+                      <FormItem className="mb-6">
+                        <FormLabel className="text-gray-700 font-medium">Company Name</FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="John Doe" 
+                            placeholder="Your Company" 
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
                             {...field} 
                           />
@@ -137,14 +202,41 @@ export default function ContactForm() {
                   
                   <FormField
                     control={form.control}
-                    name="email"
+                    name="service"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-700 font-medium">Email Address</FormLabel>
+                      <FormItem className="mb-6">
+                        <FormLabel className="text-gray-700 font-medium">Service You're Interested In</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]">
+                              <SelectValue placeholder="Select a service" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="seo">Search Engine Optimization</SelectItem>
+                            <SelectItem value="ppc">Paid Advertising (PPC)</SelectItem>
+                            <SelectItem value="social">Social Media Management</SelectItem>
+                            <SelectItem value="email">Email Marketing</SelectItem>
+                            <SelectItem value="cro">Conversion Optimization</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem className="mb-6">
+                        <FormLabel className="text-gray-700 font-medium">Your Message</FormLabel>
                         <FormControl>
-                          <Input 
-                            placeholder="john@example.com" 
+                          <Textarea 
+                            placeholder="Tell us about your project and goals..." 
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
+                            rows={4} 
                             {...field} 
                           />
                         </FormControl>
@@ -152,102 +244,39 @@ export default function ContactForm() {
                       </FormItem>
                     )}
                   />
-                </div>
-                
-                <FormField
-                  control={form.control}
-                  name="company"
-                  render={({ field }) => (
-                    <FormItem className="mb-6">
-                      <FormLabel className="text-gray-700 font-medium">Company Name</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="Your Company" 
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="service"
-                  render={({ field }) => (
-                    <FormItem className="mb-6">
-                      <FormLabel className="text-gray-700 font-medium">Service You're Interested In</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  
+                  <FormField
+                    control={form.control}
+                    name="consent"
+                    render={({ field }) => (
+                      <FormItem className="mb-6 flex flex-row items-start space-x-3 space-y-0">
                         <FormControl>
-                          <SelectTrigger className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]">
-                            <SelectValue placeholder="Select a service" />
-                          </SelectTrigger>
+                          <Checkbox 
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            className="rounded text-[#3a1d96] focus:ring-[#3a1d96]"
+                          />
                         </FormControl>
-                        <SelectContent>
-                          <SelectItem value="seo">Search Engine Optimization</SelectItem>
-                          <SelectItem value="ppc">Paid Advertising (PPC)</SelectItem>
-                          <SelectItem value="social">Social Media Management</SelectItem>
-                          <SelectItem value="email">Email Marketing</SelectItem>
-                          <SelectItem value="cro">Conversion Optimization</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem className="mb-6">
-                      <FormLabel className="text-gray-700 font-medium">Your Message</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Tell us about your project and goals..." 
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
-                          rows={4} 
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="consent"
-                  render={({ field }) => (
-                    <FormItem className="mb-6 flex flex-row items-start space-x-3 space-y-0">
-                      <FormControl>
-                        <Checkbox 
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          className="rounded text-[#3a1d96] focus:ring-[#3a1d96]"
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel className="text-gray-700">
-                          I agree to the privacy policy and terms of service
-                        </FormLabel>
-                        <FormMessage />
-                      </div>
-                    </FormItem>
-                  )}
-                />
-                
-                <Button 
-                  type="submit" 
-                  className="w-full bg-gradient-primary hover:bg-[#2a1570] text-white font-medium py-3 rounded-lg"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Submitting..." : "Submit Request"}
-                </Button>
-              </form>
-            </Form>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-gray-700">
+                            I agree to the privacy policy and terms of service
+                          </FormLabel>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-gradient-primary hover:bg-[#2a1570] text-white font-medium py-3 rounded-lg"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit Request"}
+                  </Button>
+                </form>
+              </Form>
+            )}
           </motion.div>
         </div>
       </div>
