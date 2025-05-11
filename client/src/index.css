@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 20 14.3% 4.1%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  --primary: 260 67% 40%;
+  --primary-dark: 260 67% 28%;
+  --primary-light: 260 67% 46%;
+  --primary-foreground: 211 100% 99%;
+  --secondary: 346 100% 65%;
+  --secondary-dark: 346 100% 55%;
+  --secondary-light: 346 100% 75%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 168 100% 45%;
+  --accent-dark: 168 100% 35%;
+  --accent-light: 168 100% 60%;
+  --accent-foreground: 24 9.8% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 60 9.1% 97.8%;
+  --ring: 260 67% 40%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --primary: 260 67% 40%;
+  --primary-dark: 260 67% 28%;
+  --primary-light: 260 67% 46%;
+  --primary-foreground: 211 100% 99%;
+  --secondary: 346 100% 65%; 
+  --secondary-dark: 346 100% 55%;
+  --secondary-light: 346 100% 75%;
+  --secondary-foreground: 0 0% 98%;
+  --accent: 168 100% 45%;
+  --accent-dark: 168 100% 35%;
+  --accent-light: 168 100% 60%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 240 4.9% 83.9%;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground scroll-smooth;
+    font-family: "Inter", sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Poppins", sans-serif;
+  }
+}
+
+/* Custom Classes */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#3a1d96] to-[#ff3371];
+}
+
+.bg-gradient-primary {
+  @apply bg-gradient-to-r from-[#3a1d96] to-[#4f2ebd];
+}
+
+.bg-gradient-secondary {
+  @apply bg-gradient-to-r from-[#ff3371] to-[#ff5c8d];
+}
+
+.bg-gradient-accent {
+  @apply bg-gradient-to-r from-[#00e6c3] to-[#33ffe1];
+}
+
+.bg-gradient-dark {
+  @apply bg-gradient-to-br from-[#1e1e24] to-[#2d2d36];
+}
+
+.neon-shadow {
+  box-shadow: 0 0 15px rgba(0, 230, 195, 0.5);
+}
+
+.neon-shadow-primary {
+  box-shadow: 0 0 15px rgba(58, 29, 150, 0.5);
+}
+
+.neon-shadow-secondary {
+  box-shadow: 0 0 15px rgba(255, 51, 113, 0.5);
+}
+
+.bg-glass {
+  @apply bg-white/10 backdrop-blur-md;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+.service-card {
+  @apply transition-all duration-300;
+}
+
+.service-card:hover {
+  @apply transform -translate-y-1;
+}
+
+.service-icon {
+  @apply transition-all duration-300;
+}
+
+.service-card:hover .service-icon {
+  @apply transform scale-110;
+}
