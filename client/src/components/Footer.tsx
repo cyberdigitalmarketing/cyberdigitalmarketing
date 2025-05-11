@@ -66,7 +66,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center">
                 <i className="fas fa-globe mr-3"></i>
-                <span>www.cyberdigitalmarketing.com</span>
+                <span>www.cyberdigitalmarketing.net</span>
               </li>
             </ul>
           </div>
