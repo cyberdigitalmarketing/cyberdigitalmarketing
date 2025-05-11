@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import dashboardImage from "../assets/dashboard.jpg";
 
 export default function Hero() {
   return (
@@ -80,8 +81,8 @@ export default function Hero() {
             className="relative"
           >
             <img 
-              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=800&q=80" 
-              alt="Digital Marketing Dashboard" 
+              src={dashboardImage} 
+              alt="Digital Marketing Dashboard Results" 
               className="rounded-xl shadow-2xl neon-shadow-secondary floating w-full max-w-lg mx-auto" 
             />
             
@@ -91,8 +92,8 @@ export default function Hero() {
                   <i className="fas fa-chart-line"></i>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-800">ROI Increase</h3>
-                  <p className="text-gray-600 text-sm">Average 187% increase in ROI for our clients</p>
+                  <h3 className="font-semibold text-gray-800">Sales Growth</h3>
+                  <p className="text-gray-600 text-sm">104% increase in monthly sales revenue</p>
                 </div>
               </div>
             </div>
