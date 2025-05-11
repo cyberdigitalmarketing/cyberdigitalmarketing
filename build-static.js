@@ -96,7 +96,7 @@ async function buildStatic() {
     console.log('');
     console.log('To deploy to your web host:');
     console.log('  1. Upload all files from the "dist" directory to your hosting');
-    console.log('  2. Make sure to replace "YOUR_FORMSPREE_FORM_ID" in the HTML with your actual Formspree ID');
+    console.log('  2. Your Formspree ID (mzzrakaw) is already set in the contact form');
     console.log('');
     console.log('For detailed instructions, see STATIC_DEPLOYMENT.md');
     

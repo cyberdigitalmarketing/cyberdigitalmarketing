@@ -61,7 +61,7 @@ export default function ContactForm() {
           >
             {/* Standard HTML form that will work in static site generation */}
             <form 
-              action="https://formspree.io/f/YOUR_FORMSPREE_FORM_ID" 
+              action="https://formspree.io/f/mzzrakaw" 
               method="POST" 
               className="bg-white rounded-xl shadow-lg p-8 border border-gray-100"
             >

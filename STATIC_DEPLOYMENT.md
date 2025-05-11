@@ -24,17 +24,16 @@ Before proceeding, you'll need:
 2. Create a new form in your Formspree dashboard
 3. Copy the form ID (it will look like `xaydpbvz`)
 
-## Step 2: Update the Contact Form
+## Step 2: Formspree Integration
 
-Edit the `client/src/components/ContactForm.tsx` file:
+The contact form is already configured with your Formspree form ID:
 
 ```jsx
-// Find this line around line 64:
-action="https://formspree.io/f/YOUR_FORMSPREE_FORM_ID"
-
-// Replace it with your actual Formspree form ID:
-action="https://formspree.io/f/xaydpbvz" // Use your actual form ID
+// Your Formspree form ID is already set:
+action="https://formspree.io/f/mzzrakaw"
 ```
+
+You can update this ID in the future if needed by editing the `client/src/components/ContactForm.tsx` file.
 
 ## Step 3: Build the Static Site
 
