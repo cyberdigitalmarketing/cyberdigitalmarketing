@@ -104,7 +104,7 @@ export class EmailService {
       Email: ${message.email}
       Phone: ${message.phone || 'Not provided'}
       Company: ${message.company || 'Not provided'}
-      Service: ${message.service}
+
       Message: ${message.message}
       Submitted on: ${message.createdAt ? new Date(message.createdAt).toLocaleString() : new Date().toLocaleString()}
     `;
@@ -120,7 +120,7 @@ export class EmailService {
           <p><strong>Email:</strong> ${message.email}</p>
           <p><strong>Phone:</strong> ${message.phone || 'Not provided'}</p>
           <p><strong>Company:</strong> ${message.company || 'Not provided'}</p>
-          <p><strong>Service:</strong> ${message.service}</p>
+
           <p><strong>Message:</strong></p>
           <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-top: 5px;">
             ${message.message.replace(/\n/g, '<br>')}

@@ -63,7 +63,7 @@ export class MemStorage implements IStorage {
       email: insertMessage.email,
       phone: insertMessage.phone || null,
       company: insertMessage.company,
-      service: insertMessage.service,
+
       message: insertMessage.message,
       consent: consent,
       createdAt: createdAt
