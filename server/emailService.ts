@@ -16,11 +16,28 @@ interface EmailConfig {
   };
   tls?: {
     rejectUnauthorized: boolean;
+    ciphers?: string;
+    [key: string]: any; // Allow other TLS options
   };
 }
 
-// Default config using Gmail
-const defaultConfig: EmailConfig = {
+// Config options for different email providers
+const outlookConfig: EmailConfig = {
+  host: 'smtp-mail.outlook.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: process.env.EMAIL_USER || '',
+    pass: process.env.EMAIL_PASSWORD || ''
+  },
+  tls: {
+    ciphers: 'SSLv3',
+    rejectUnauthorized: false
+  }
+};
+
+// Gmail config
+const gmailConfig: EmailConfig = {
   host: 'smtp.gmail.com',
   port: 465,
   secure: true, // true for 465, false for other ports
@@ -33,6 +50,9 @@ const defaultConfig: EmailConfig = {
     rejectUnauthorized: false
   }
 };
+
+// Default config - using Outlook
+const defaultConfig: EmailConfig = outlookConfig;
 
 export class EmailService {
   private transporter: nodemailer.Transporter;
@@ -51,8 +71,18 @@ export class EmailService {
       port: config.port,
       secure: config.secure,
       user: process.env.EMAIL_USER ? process.env.EMAIL_USER.substring(0, 3) + '***' : 'not set',
-      passwordProvided: !!process.env.EMAIL_PASSWORD
+      passwordProvided: !!process.env.EMAIL_PASSWORD,
+      provider: config.host.includes('outlook') ? 'Outlook' : 'Gmail'
     });
+    
+    // Verify connection
+    this.transporter.verify()
+      .then(() => {
+        console.log('SMTP server connection successfully established');
+      })
+      .catch((error) => {
+        console.error('SMTP server connection failed:', error.message);
+      });
   }
 
   async sendContactNotification(message: ContactMessage): Promise<boolean> {
