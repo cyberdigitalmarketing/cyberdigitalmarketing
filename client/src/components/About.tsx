@@ -70,27 +70,27 @@ export default function About() {
               className="rounded-xl shadow-xl" 
             />
                  
-            <div className="absolute -bottom-8 -left-8 bg-white p-4 rounded-lg shadow-lg md:max-w-xs hidden md:block">
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-2">
+            <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-lg max-w-[220px] hidden md:block">
+              <div className="flex flex-col gap-3">
+                <div className="flex justify-center -space-x-2">
                   <img 
                     src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60&q=80" 
                     alt="Team member" 
-                    className="w-8 h-8 rounded-full border-2 border-white" 
+                    className="w-9 h-9 rounded-full border-2 border-white" 
                   />
                   <img 
                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60&q=80" 
                     alt="Team member" 
-                    className="w-8 h-8 rounded-full border-2 border-white" 
+                    className="w-9 h-9 rounded-full border-2 border-white" 
                   />
                   <img 
                     src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60&q=80" 
                     alt="Team member" 
-                    className="w-8 h-8 rounded-full border-2 border-white" 
+                    className="w-9 h-9 rounded-full border-2 border-white" 
                   />
                 </div>
-                <div>
-                  <p className="text-sm text-gray-700 font-medium">Expert team with 15+ years of combined experience</p>
+                <div className="text-center">
+                  <p className="text-sm text-gray-700 font-semibold">15+ Years Combined Experience</p>
                 </div>
               </div>
             </div>
