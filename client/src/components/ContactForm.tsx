@@ -46,6 +46,16 @@ export default function ContactForm() {
   useEffect(() => {
     if (import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
       emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+      console.log('EmailJS initialized with public key');
+      
+      // Log EmailJS config keys (without revealing the actual values)
+      console.log('EmailJS configuration check:', {
+        publicKeyExists: !!import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        serviceIdExists: !!import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        templateIdExists: !!import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+      });
+    } else {
+      console.warn('EmailJS public key not found');
     }
   }, []);
     
@@ -87,6 +97,17 @@ export default function ContactForm() {
             to_email: "cyberdigitalmarketing@protonmail.com",
             reply_to: data.email
           };
+          
+          // Log what we're about to send
+          console.log('Attempting to send email with EmailJS using:', {
+            serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+            templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+            params: {
+              ...templateParams,
+              // Don't log the actual message content for privacy
+              message: templateParams.message ? '[Message content]' : undefined
+            }
+          });
           
           // Send email
           const result = await emailjs.send(
