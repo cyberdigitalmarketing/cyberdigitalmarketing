@@ -42,7 +42,7 @@ export default function Navbar() {
           <Link href="/">
             <a className="flex items-center">
               <span className="text-2xl font-bold font-poppins text-[#3a1d96]">
-                Cyber<span className="text-[#ff3371]">Digital</span>
+                Cyber <span className="text-[#ff3371]">Digital Marketing</span>
               </span>
             </a>
           </Link>

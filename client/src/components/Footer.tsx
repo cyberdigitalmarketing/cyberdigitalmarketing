@@ -11,7 +11,7 @@ export default function Footer() {
             <Link href="/">
               <a className="inline-block mb-6">
                 <span className="text-2xl font-bold font-poppins">
-                  Cyber<span className="text-[#ff3371]">Digital</span>
+                  Cyber <span className="text-[#ff3371]">Digital Marketing</span>
                 </span>
               </a>
             </Link>

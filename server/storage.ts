@@ -53,8 +53,11 @@ export class MemStorage implements IStorage {
   async createContactMessage(insertMessage: InsertContactMessage): Promise<ContactMessage> {
     const id = this.currentContactMessageId++;
     const createdAt = new Date();
+    // Ensure consent is boolean (should already be true from form validation)
+    const consent = insertMessage.consent === undefined ? true : insertMessage.consent;
     const message: ContactMessage = { 
-      ...insertMessage, 
+      ...insertMessage,
+      consent, 
       id, 
       createdAt 
     };
