@@ -27,6 +27,9 @@ export default function ContactForm() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
+  // Initialize Formspree
+  const [formspreeState, handleFormspreeSubmit] = useFormspree("YOUR_FORMSPREE_FORM_ID");
+  
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -41,16 +44,15 @@ export default function ContactForm() {
 
   const [isSuccess, setIsSuccess] = useState(false);
   
-  // Using server-side email instead of client-side
-    
+  // Handle form submission with Formspree
   const onSubmit = async (data: ContactFormValues) => {
     setIsSubmitting(true);
     setIsSuccess(false);
     
     try {
-      // Submit to our backend to store the contact message and send email via Outlook SMTP
-      const response = await apiRequest('POST', '/api/contact', data);
-      console.log('Contact form submission successful:', response);
+      // Submit to Formspree
+      await handleFormspreeSubmit(data);
+      console.log('Contact form submission successful');
       
       toast({
         title: "Message sent successfully!",
