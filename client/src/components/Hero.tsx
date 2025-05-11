@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import dashboardImage from "../assets/dashboard.jpg";
+import dashboardImage from "@assets/b2b2.jpg";
 
 export default function Hero() {
   return (
@@ -83,7 +83,11 @@ export default function Hero() {
             <img 
               src={dashboardImage} 
               alt="Digital Marketing Dashboard Results" 
-              className="rounded-xl shadow-2xl neon-shadow-secondary floating w-full max-w-lg mx-auto" 
+              className="rounded-xl shadow-2xl neon-shadow-secondary floating w-full max-w-lg mx-auto object-contain"
+              style={{ 
+                imageRendering: "crisp-edges",
+                backfaceVisibility: "hidden"
+              }}
             />
             
             <div className="absolute -bottom-6 -right-6 bg-white rounded-lg p-4 shadow-lg max-w-xs hidden md:block">
