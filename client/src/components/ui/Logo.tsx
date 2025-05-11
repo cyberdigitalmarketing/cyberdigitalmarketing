@@ -8,16 +8,19 @@ interface LogoProps {
 
 export function Logo({ className, variant = "dark", showText = true }: LogoProps) {
   const textColorClass = variant === "light" ? "text-white" : "text-gray-900";
-  const primaryColor = variant === "light" ? "#ffffff" : "#3a1d96";
+  const primaryColor = variant === "light" ? "#2a1570" : "#3a1d96";
   const accentColor = "#ff3371";
+  const cPathColor = variant === "light" ? "#ffffff" : "#ffffff";
+  const bgColor = variant === "light" ? "rgba(255,255,255,0.1)" : "transparent";
   
   return (
-    <div className={cn("flex items-center gap-2", className)}>
-      <div className="relative h-8 w-8">
+    <div className={cn("flex items-center gap-3", className)}>
+      <div className={cn("relative h-9 w-9", variant === "light" ? "bg-opacity-20 rounded-lg" : "")}>
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
           viewBox="0 0 64 64" 
           className="h-full w-full"
+          style={{ filter: variant === "light" ? "drop-shadow(0 0 4px rgba(255,255,255,0.3))" : "none" }}
         >
           {/* Abstract circuit board background */}
           <rect width="64" height="64" rx="8" fill={primaryColor} />
@@ -42,7 +45,7 @@ export function Logo({ className, variant = "dark", showText = true }: LogoProps
           {/* 'C' letter shape overlay */}
           <path 
             d="M32 12c-11.05 0-20 8.95-20 20s8.95 20 20 20c8.84 0 16.34-5.73 19-13.7" 
-            stroke="#ffffff" 
+            stroke={cPathColor} 
             strokeWidth="5" 
             fill="none" 
             strokeLinecap="round"
@@ -52,10 +55,10 @@ export function Logo({ className, variant = "dark", showText = true }: LogoProps
       
       {showText && (
         <div className="flex flex-col">
-          <span className={cn("text-xl font-bold leading-none", textColorClass)}>
+          <span className={cn("text-lg font-bold leading-none tracking-tight", textColorClass)}>
             Cyber <span className="text-[#ff3371]">Digital</span>
           </span>
-          <span className={cn("text-xs font-medium", textColorClass)}>
+          <span className={cn("text-xs font-medium", variant === "light" ? "text-gray-300" : "text-gray-700")}>
             Marketing
           </span>
         </div>
