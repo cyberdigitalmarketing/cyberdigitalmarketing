@@ -7,7 +7,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
@@ -17,7 +17,6 @@ const contactSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
   phone: z.string().optional(),
   company: z.string().min(2, { message: "Company name is required" }),
-  service: z.string().min(1, { message: "Please select a service" }),
   message: z.string().min(10, { message: "Message must be at least 10 characters" }),
   consent: z.boolean().refine(val => val === true, { message: "You must agree to the privacy policy" })
 });
@@ -35,7 +34,6 @@ export default function ContactForm() {
       email: "",
       phone: "",
       company: "",
-      service: "",
       message: "",
       consent: false
     }
@@ -227,31 +225,7 @@ export default function ContactForm() {
                   
                   {/* Company field is already in the grid above */}
                   
-                  <FormField
-                    control={form.control}
-                    name="service"
-                    render={({ field }) => (
-                      <FormItem className="mb-6">
-                        <FormLabel className="text-gray-700 font-medium">Service You're Interested In</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]">
-                              <SelectValue placeholder="Select a service" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="seo">Search Engine Optimization</SelectItem>
-                            <SelectItem value="ppc">Paid Advertising (PPC)</SelectItem>
-                            <SelectItem value="social">Social Media Management</SelectItem>
-                            <SelectItem value="email">Email Marketing</SelectItem>
-                            <SelectItem value="cro">Conversion Optimization</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                
                   
                   <FormField
                     control={form.control}
