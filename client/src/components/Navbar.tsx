@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/use-mobile";
+import { Logo } from "@/components/ui/Logo";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,13 +40,11 @@ export default function Navbar() {
     }`}>
       <nav className="container mx-auto px-6">
         <div className="flex justify-between items-center">
-          <Link href="/">
-            <a className="flex items-center">
-              <span className="text-2xl font-bold font-poppins text-[#3a1d96]">
-                Cyber <span className="text-[#ff3371]">Digital Marketing</span>
-              </span>
-            </a>
-          </Link>
+          <div className="flex items-center">
+            <Link href="/">
+              <Logo />
+            </Link>
+          </div>
           
           <div className="hidden md:flex items-center space-x-8">
             <a href="#about" className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300">

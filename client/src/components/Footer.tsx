@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { Logo } from "@/components/ui/Logo";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -8,13 +9,11 @@ export default function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           <div>
-            <Link href="/">
-              <a className="inline-block mb-6">
-                <span className="text-2xl font-bold font-poppins">
-                  Cyber <span className="text-[#ff3371]">Digital Marketing</span>
-                </span>
-              </a>
-            </Link>
+            <div className="mb-6">
+              <Link href="/">
+                <Logo variant="light" />
+              </Link>
+            </div>
             
             <p className="text-gray-400 mb-6">
               Empowering brands through digital innovation and strategic marketing solutions that drive measurable results.
