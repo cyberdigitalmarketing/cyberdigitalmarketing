@@ -55,12 +55,20 @@ export class MemStorage implements IStorage {
     const createdAt = new Date();
     // Ensure consent is boolean (should already be true from form validation)
     const consent = insertMessage.consent === undefined ? true : insertMessage.consent;
-    const message: ContactMessage = { 
-      ...insertMessage,
-      consent, 
-      id, 
-      createdAt 
+    
+    // Create a new object instead of using spread to avoid type issues
+    const message: ContactMessage = {
+      id,
+      name: insertMessage.name,
+      email: insertMessage.email,
+      phone: insertMessage.phone || null,
+      company: insertMessage.company,
+      service: insertMessage.service,
+      message: insertMessage.message,
+      consent: consent,
+      createdAt: createdAt
     };
+    
     this.contactMessages.set(id, message);
     return message;
   }

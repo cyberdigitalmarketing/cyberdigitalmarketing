@@ -23,9 +23,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Save the contact message
       const contactMessage = await storage.createContactMessage(validation.data);
       
+      // Check if email credentials are set
+      const emailConfigured = process.env.EMAIL_USER && process.env.EMAIL_PASSWORD;
+      
+      // Send email notification if configured
+      let emailSent = false;
+      if (emailConfigured) {
+        try {
+          emailSent = await emailService.sendContactNotification(contactMessage);
+          console.log('Email notification status:', emailSent ? 'sent' : 'failed');
+        } catch (emailError) {
+          console.error('Error sending email notification:', emailError);
+          // We'll continue even if email sending fails
+        }
+      } else {
+        console.log('Email not configured. Skipping email notification.');
+      }
+      
       return res.status(200).json({
         message: "Message sent successfully",
-        data: contactMessage
+        data: contactMessage,
+        emailSent: emailSent
       });
     } catch (error) {
       console.error('Error saving contact message:', error);

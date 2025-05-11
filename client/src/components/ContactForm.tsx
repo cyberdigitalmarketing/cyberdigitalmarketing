@@ -99,6 +99,7 @@ export default function ContactForm() {
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Email Us</h4>
                   <p className="text-gray-600">cyberdigitalmarketing@protonmail.com</p>
+                  <p className="text-xs text-gray-500 mt-1">(All form submissions will be sent to this address)</p>
                 </div>
               </div>
             </div>
