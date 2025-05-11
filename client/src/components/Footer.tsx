@@ -62,7 +62,7 @@ export default function Footer() {
             <ul className="space-y-3 text-gray-400">
               <li className="flex items-center">
                 <i className="fas fa-envelope mr-3"></i>
-                <span>hello@cyberdigitalmarketing.com</span>
+                <span>cyberdigitalmarketing@protonmail.com</span>
               </li>
               <li className="flex items-center">
                 <i className="fas fa-globe mr-3"></i>

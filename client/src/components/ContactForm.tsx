@@ -98,7 +98,7 @@ export default function ContactForm() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-800 mb-1">Email Us</h4>
-                  <p className="text-gray-600">hello@cyberdigitalmarketing.com</p>
+                  <p className="text-gray-600">cyberdigitalmarketing@protonmail.com</p>
                 </div>
               </div>
             </div>
