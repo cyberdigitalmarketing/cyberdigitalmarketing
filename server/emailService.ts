@@ -21,29 +21,16 @@ interface EmailConfig {
   };
 }
 
-// Config options for different email providers
-const outlookConfig: EmailConfig = {
-  host: 'smtp-mail.outlook.com',
-  port: 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: process.env.EMAIL_USER || '',
-    pass: process.env.EMAIL_PASSWORD || ''
-  },
-  tls: {
-    ciphers: 'SSLv3',
-    rejectUnauthorized: false
-  }
-};
-
-// Gmail config
+// Gmail config with app password
+// Note: You need to enable 2-step verification in your Google account
+// and then create an app password at https://myaccount.google.com/apppasswords
 const gmailConfig: EmailConfig = {
   host: 'smtp.gmail.com',
   port: 465,
   secure: true, // true for 465, false for other ports
   auth: {
-    user: process.env.EMAIL_USER || '',
-    pass: process.env.EMAIL_PASSWORD || ''
+    user: process.env.GMAIL_USER || '', // Your Gmail address
+    pass: process.env.GMAIL_APP_PASSWORD || '' // Your Gmail App Password (not your regular password)
   },
   tls: {
     // Do not fail on invalid certs
@@ -51,8 +38,8 @@ const gmailConfig: EmailConfig = {
   }
 };
 
-// Default config - using Outlook
-const defaultConfig: EmailConfig = outlookConfig;
+// Default config - using Gmail
+const defaultConfig: EmailConfig = gmailConfig;
 
 export class EmailService {
   private transporter: nodemailer.Transporter;

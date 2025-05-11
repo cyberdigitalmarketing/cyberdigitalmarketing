@@ -6,6 +6,7 @@ import { fromZodError } from "zod-validation-error";
 import { emailService } from "./emailService";
 import { mockEmailService } from "./mockEmailService";
 import { directEmailService } from "./directEmailService";
+import { createGraphEmailService } from "./graphEmailService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API routes
@@ -27,12 +28,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // No need to check email credentials anymore as we're using direct email service
       
-      // Use direct email service to log the contact details in a readable format
+      // Log the contact details using direct email service
       try {
         await directEmailService.sendContactNotification(contactMessage);
-        console.log('Contact submission recorded successfully');
+        console.log('Contact submission logged successfully');
       } catch (error) {
-        console.error('Error recording contact submission:', error);
+        console.error('Error logging contact submission:', error);
+      }
+      
+      // Try to send an actual email using nodemailer with Gmail
+      let emailSent = false;
+      try {
+        emailSent = await emailService.sendContactNotification(contactMessage);
+        if (emailSent) {
+          console.log('Email notification sent successfully via Gmail');
+        } else {
+          console.log('Failed to send email notification via Gmail');
+        }
+      } catch (error) {
+        console.error('Error sending email with Gmail:', error);
       }
       
       return res.status(200).json({
