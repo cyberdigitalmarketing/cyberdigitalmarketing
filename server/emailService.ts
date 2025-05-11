@@ -13,17 +13,24 @@ interface EmailConfig {
   auth: {
     user: string;
     pass: string;
-  }
+  };
+  tls?: {
+    rejectUnauthorized: boolean;
+  };
 }
 
 // Default config using Gmail
 const defaultConfig: EmailConfig = {
   host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, // true for 465, false for other ports
+  port: 465,
+  secure: true, // true for 465, false for other ports
   auth: {
     user: process.env.EMAIL_USER || '',
     pass: process.env.EMAIL_PASSWORD || ''
+  },
+  tls: {
+    // Do not fail on invalid certs
+    rejectUnauthorized: false
   }
 };
 
@@ -37,6 +44,15 @@ export class EmailService {
   ) {
     this.transporter = nodemailer.createTransport(config);
     this.targetEmail = targetEmail;
+    
+    // Log email configuration (without showing password)
+    console.log('Email service configured with:', {
+      host: config.host,
+      port: config.port,
+      secure: config.secure,
+      user: process.env.EMAIL_USER ? process.env.EMAIL_USER.substring(0, 3) + '***' : 'not set',
+      passwordProvided: !!process.env.EMAIL_PASSWORD
+    });
   }
 
   async sendContactNotification(message: ContactMessage): Promise<boolean> {

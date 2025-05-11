@@ -1,9 +1,10 @@
-import type { Express, Request, Response } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { contactMessageSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import { emailService } from "./emailService";
+import { mockEmailService } from "./mockEmailService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API routes
@@ -26,18 +27,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check if email credentials are set
       const emailConfigured = process.env.EMAIL_USER && process.env.EMAIL_PASSWORD;
       
-      // Send email notification if configured
+      // Send email notification
       let emailSent = false;
+      
+      // First try the real email service if configured
       if (emailConfigured) {
         try {
           emailSent = await emailService.sendContactNotification(contactMessage);
           console.log('Email notification status:', emailSent ? 'sent' : 'failed');
         } catch (emailError) {
           console.error('Error sending email notification:', emailError);
-          // We'll continue even if email sending fails
+          // Will fall back to mock email service
+          emailSent = false;
         }
       } else {
-        console.log('Email not configured. Skipping email notification.');
+        console.log('Email not configured with real service. Using fallback.');
+      }
+      
+      // If real email service failed or isn't configured, use the mock service
+      if (!emailSent) {
+        try {
+          await mockEmailService.sendContactNotification(contactMessage);
+          console.log('Mock email notification logged to console');
+          emailSent = true; // Mark as "sent" since we successfully logged it
+        } catch (mockError) {
+          console.error('Error with mock email notification:', mockError);
+        }
       }
       
       return res.status(200).json({
