@@ -13,6 +13,7 @@
   "dependencies": {
     "@azure/identity": "^4.9.1",
     "@emailjs/browser": "^4.4.1",
+    "@formspree/react": "^3.0.0",
     "@hookform/resolvers": "^3.10.0",
     "@jridgewell/trace-mapping": "^0.3.25",
     "@microsoft/microsoft-graph-client": "^3.0.7",
@@ -73,6 +74,7 @@
     "react-hook-form": "^7.56.3",
     "react-icons": "^5.5.0",
     "react-resizable-panels": "^2.1.7",
+    "react-snap": "^1.23.0",
     "recharts": "^2.15.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
