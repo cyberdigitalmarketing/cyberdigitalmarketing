@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 import { storage } from "../server/storage";
 import { contactMessageSchema } from "../shared/schema";
 import { fromZodError } from "zod-validation-error";
@@ -6,7 +6,7 @@ import { emailService } from "../server/emailService";
 import { directEmailService } from "../server/directEmailService";
 
 // Vercel API function for the contact form
-export default async function handler(req: Request, res: Response) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
