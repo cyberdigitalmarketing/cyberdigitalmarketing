@@ -2,10 +2,10 @@
   "version": 2,
   "builds": [
     {
-      "src": "server/vercel.ts",
+      "src": "api/*.ts",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["dist/**", "shared/**"],
+        "includeFiles": ["server/**", "shared/**", "dist/**"],
         "nodeVersion": "20.x"
       }
     },
@@ -13,26 +13,21 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist/client"
+        "distDir": "dist/public"
       }
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "server/vercel.ts"
+      "src": "/api/contact",
+      "dest": "/api/contact.ts"
     },
     {
-      "src": "/(assets|images|js|css|fonts)/.*",
-      "dest": "dist/client/$0"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "dist/client/favicon.ico"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "dist/client/index.html"
+      "dest": "/dist/public/index.html"
     }
   ],
   "env": {
