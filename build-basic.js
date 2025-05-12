@@ -1,8 +1,8 @@
 /**
- * Static Build Script
+ * Basic Build Script
  * 
- * This script builds the website for static hosting with Formspree integration.
- * Run this with: node build-static.js
+ * This script builds the website for static hosting with Formspree integration
+ * without trying to pre-render pages.
  */
 
 import { execSync } from 'child_process';
@@ -16,7 +16,6 @@ const __dirname = path.dirname(__filename);
 
 // Configuration
 const DIST_DIR = path.join(__dirname, 'dist');
-const INDEX_HTML = path.join(DIST_DIR, 'index.html');
 
 // Main function
 async function buildStatic() {
@@ -27,38 +26,13 @@ async function buildStatic() {
     console.log('🔹 Building with Vite...');
     execSync('npm run build', { stdio: 'inherit' });
     
-    // Step 2: Run react-snap to pre-render HTML
-    console.log('🔹 Pre-rendering with react-snap...');
+    // Step 2: Create a simple .htaccess file for Apache hosting
+    console.log('🔹 Creating .htaccess file...');
     
-    // Import react-snap dynamically in ES modules
-    const reactSnap = await import('react-snap');
-    const { run } = reactSnap;
-    await run({
-      puppeteerArgs: ['--no-sandbox', '--disable-setuid-sandbox'],
-      skipThirdPartyRequests: true,
-      removeBlobs: true,
-      fixWebpackChunksIssue: true,
-      source: 'dist',
-      destination: 'dist',
-      saveAs404: false,
-      userAgent: 'ReactSnap',
-    });
-    
-    // Step 3: Post-processing
-    console.log('🔹 Post-processing static files...');
-    
-    // Fix any root-relative paths if needed
-    if (fs.existsSync(INDEX_HTML)) {
-      let indexHtml = fs.readFileSync(INDEX_HTML, 'utf8');
-      
-      // Uncomment these lines if you have path issues with assets
-      // indexHtml = indexHtml.replace(/src="\/assets\//g, 'src="./assets/');
-      // indexHtml = indexHtml.replace(/href="\/assets\//g, 'href="./assets/');
-      
-      fs.writeFileSync(INDEX_HTML, indexHtml);
+    if (!fs.existsSync(DIST_DIR)) {
+      fs.mkdirSync(DIST_DIR, { recursive: true });
     }
     
-    // Step 4: Create a simple .htaccess file for Apache hosting
     const htaccessContent = `# Enable GZIP compression
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json
@@ -91,19 +65,13 @@ async function buildStatic() {
     
     fs.writeFileSync(path.join(DIST_DIR, '.htaccess'), htaccessContent);
     
-    // Create 404.html (copy of index.html)
-    if (fs.existsSync(INDEX_HTML)) {
-      fs.copyFileSync(INDEX_HTML, path.join(DIST_DIR, '404.html'));
-    }
-    
-    console.log('✅ Static build complete!');
+    console.log('✅ Basic build complete!');
     console.log('');
-    console.log('To test the static site locally:');
-    console.log('  npx serve -s dist');
+    console.log('The dist folder now contains your website files ready for uploading.');
     console.log('');
     console.log('To deploy to your web host:');
-    console.log('  1. Upload all files from the "dist" directory to your hosting');
-    console.log('  2. Your Formspree ID (mzzrakaw) is already set in the contact form');
+    console.log('  1. Download the entire "dist" directory from Replit');
+    console.log('  2. Upload all files from the "dist" directory to your HostPapa account');
     console.log('');
     console.log('For detailed instructions, see STATIC_DEPLOYMENT.md');
     
