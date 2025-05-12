@@ -1,13 +1,83 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { apiRequest } from "@/lib/queryClient";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
-// This version of the contact form is designed for static site generation
-// It uses a standard HTML form that posts directly to Formspree
+import { Checkbox } from "@/components/ui/checkbox";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
+
+const contactSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  phone: z.string().optional(),
+  company: z.string().min(2, { message: "Company name is required" }),
+  message: z.string().min(10, { message: "Message must be at least 10 characters" }),
+  consent: z.boolean().refine(val => val === true, { message: "You must agree to the privacy policy" })
+});
+
+type ContactFormValues = z.infer<typeof contactSchema>;
+
 export default function ContactForm() {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      company: "",
+      message: "",
+      consent: false
+    }
+  });
+
+  const [isSuccess, setIsSuccess] = useState(false);
+  
+  // Using server-side email instead of client-side
+    
+  const onSubmit = async (data: ContactFormValues) => {
+    setIsSubmitting(true);
+    setIsSuccess(false);
+    
+    try {
+      // Submit to our backend to store the contact message and send email via Outlook SMTP
+      const response = await apiRequest('POST', '/api/contact', data);
+      console.log('Contact form submission successful:', response);
+      
+      toast({
+        title: "Message sent successfully!",
+        description: "Your message has been received. We'll get back to you within 24 hours.",
+        variant: "default",
+      });
+      
+      form.reset();
+      setIsSuccess(true);
+      
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      
+      toast({
+        title: "Error sending message",
+        description: "Please try again later or contact us directly via email.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-20 bg-gray-50">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Left Column - Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -52,102 +122,162 @@ export default function ContactForm() {
             </div>
           </motion.div>
           
-          {/* Right Column - Form */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            {/* Standard HTML form that will work in static site generation */}
-            <form 
-              action="https://formspree.io/f/mzzrakaw" 
-              method="POST" 
-              className="bg-white rounded-xl shadow-lg p-8 border border-gray-100"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label className="text-gray-700 font-medium">Full Name</label>
-                  <input 
-                    name="name" 
-                    type="text"
-                    placeholder="John Doe" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
-                    required
-                  />
+            {isSuccess ? (
+              <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <i className="fas fa-check text-green-500 text-2xl"></i>
                 </div>
+                <h3 className="text-2xl font-bold mb-4">Message Sent!</h3>
+                <p className="text-gray-600 mb-6">
+                  Thank you for reaching out to us. We've received your message and will get back to you within 24 hours.
+                </p>
+                <Button 
+                  className="bg-gradient-primary hover:bg-[#2a1570] text-white font-medium px-6 py-3 rounded-lg"
+                  onClick={() => setIsSuccess(false)}
+                >
+                  Send Another Message
+                </Button>
+              </div>
+            ) : (
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-700 font-medium">Full Name</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="John Doe" 
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-700 font-medium">Email Address</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="john@example.com" 
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <FormField
+                      control={form.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-700 font-medium">Phone Number (Optional)</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="(555) 123-4567" 
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="company"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-700 font-medium">Company Name</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Your Company" 
+                              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  {/* Company field is already in the grid above */}
+                  
                 
-                <div>
-                  <label className="text-gray-700 font-medium">Email Address</label>
-                  <input 
-                    name="email" 
-                    type="email"
-                    placeholder="john@example.com" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
-                    required
+                  
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem className="mb-6">
+                        <FormLabel className="text-gray-700 font-medium">Your Message</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Tell us about your project and goals..." 
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
+                            rows={4} 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label className="text-gray-700 font-medium">Phone Number (Optional)</label>
-                  <input 
-                    name="phone"
-                    type="tel"
-                    placeholder="(555) 123-4567" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
+                  
+                  <FormField
+                    control={form.control}
+                    name="consent"
+                    render={({ field }) => (
+                      <FormItem className="mb-6 flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox 
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            className="rounded text-[#3a1d96] focus:ring-[#3a1d96]"
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-gray-700">
+                            I agree to the privacy policy and terms of service
+                          </FormLabel>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
                   />
-                </div>
-                
-                <div>
-                  <label className="text-gray-700 font-medium">Company Name</label>
-                  <input 
-                    name="company"
-                    type="text"
-                    placeholder="Your Company" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
-                    required
-                  />
-                </div>
-              </div>
-              
-              <div className="mb-6">
-                <label className="text-gray-700 font-medium">Your Message</label>
-                <textarea 
-                  name="message"
-                  placeholder="Tell us about your project and goals..." 
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[#3a1d96]" 
-                  rows={4} 
-                  required
-                ></textarea>
-              </div>
-              
-              <div className="mb-6 flex flex-row items-start space-x-3 space-y-0">
-                <input 
-                  name="consent"
-                  type="checkbox"
-                  className="rounded text-[#3a1d96] focus:ring-[#3a1d96] mt-1"
-                  required
-                />
-                <div className="space-y-1 leading-none">
-                  <label className="text-gray-700">
-                    I agree to the privacy policy and terms of service
-                  </label>
-                </div>
-              </div>
-              
-              {/* Hidden fields for Formspree configuration */}
-              <input type="hidden" name="_subject" value="New Website Inquiry" />
-              <input type="hidden" name="_template" value="table" />
-              
-              <button 
-                type="submit" 
-                className="w-full bg-gradient-primary hover:bg-[#2a1570] text-white font-medium py-3 rounded-lg"
-              >
-                Submit Request
-              </button>
-            </form>
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-gradient-primary hover:bg-[#2a1570] text-white font-medium py-3 rounded-lg"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit Request"}
+                  </Button>
+                </form>
+              </Form>
+            )}
           </motion.div>
         </div>
       </div>
