@@ -2,8 +2,12 @@
   "version": 2,
   "builds": [
     {
-      "src": "server/index.ts",
-      "use": "@vercel/node"
+      "src": "server/vercel.ts",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["dist/**", "shared/**"],
+        "nodeVersion": "20.x"
+      }
     },
     {
       "src": "package.json",
@@ -16,11 +20,19 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "server/index.ts"
+      "dest": "server/vercel.ts"
+    },
+    {
+      "src": "/(assets|images|js|css|fonts)/.*",
+      "dest": "dist/client/$0"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "dist/client/favicon.ico"
     },
     {
       "src": "/(.*)",
-      "dest": "dist/client/$1"
+      "dest": "dist/client/index.html"
     }
   ],
   "env": {
