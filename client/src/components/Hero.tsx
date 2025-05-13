@@ -31,6 +31,9 @@ export default function Hero() {
               <Button 
                 size="lg" 
                 className="bg-[#ff3371] hover:bg-[#e62460] text-white font-medium px-8 py-6 rounded-full"
+                onClick={() => {
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
               >
                 Get Started
               </Button>
@@ -38,6 +41,9 @@ export default function Hero() {
                 variant="outline" 
                 size="lg" 
                 className="bg-transparent border-2 border-white text-white hover:bg-white/10 font-medium px-8 py-6 rounded-full"
+                onClick={() => {
+                  document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                }}
               >
                 Our Services
               </Button>
