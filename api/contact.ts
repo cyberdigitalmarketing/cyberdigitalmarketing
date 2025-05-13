@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { z } from 'zod';
 
 // Simple contact schema for validation
@@ -44,51 +44,53 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const data = parseResult.data;
     
-    // Set up email configuration
-    const emailUser = process.env.GMAIL_USER;
-    const emailPass = process.env.GMAIL_APP_PASSWORD;
+    // Set up Resend configuration
+    const resendApiKey = process.env.RESEND_API_KEY;
     
-    if (!emailUser || !emailPass) {
-      console.error('Email credentials are missing in environment variables');
+    if (!resendApiKey) {
+      console.error('Resend API key is missing in environment variables');
       return res.status(500).json({ 
         message: "Email configuration error. Please try again later." 
       });
     }
     
-    // Create transporter
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: emailUser,
-        pass: emailPass
-      }
-    });
+    // Initialize Resend
+    const resend = new Resend(resendApiKey);
     
-    // Create email content
-    const emailText = `
-      New Contact Form Submission
-      --------------------------
-      Name: ${data.name}
-      Email: ${data.email}
-      Phone: ${data.phone || 'Not provided'}
-      Company: ${data.company || 'Not provided'}
-      Message: ${data.message || 'No message provided'}
-      --------------------------
-      Submitted on: ${new Date().toLocaleString()}
+    // Create email content (HTML for better formatting)
+    const htmlContent = `
+      <h2>New Contact Form Submission</h2>
+      <hr />
+      <p><strong>Name:</strong> ${data.name}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      <p><strong>Phone:</strong> ${data.phone || 'Not provided'}</p>
+      <p><strong>Company:</strong> ${data.company || 'Not provided'}</p>
+      <p><strong>Message:</strong> ${data.message || 'No message provided'}</p>
+      <hr />
+      <p>Submitted on: ${new Date().toLocaleString()}</p>
     `;
     
-    // Send email
-    await transporter.sendMail({
-      from: `"Website Contact Form" <${emailUser}>`,
+    // Send email using Resend
+    const emailResult = await resend.emails.send({
+      from: 'Cyber Digital Marketing <onboarding@resend.dev>', // Use your verified domain once set up
       to: 'cyberdigitalmarketing@protonmail.com',
       subject: 'New Website Contact Form Submission',
-      text: emailText,
+      html: htmlContent,
+      // Add replyTo so client can directly reply to the sender
+      replyTo: data.email
     });
     
+    // Check for errors
+    if (emailResult.error) {
+      console.error('Resend error:', emailResult.error);
+      return res.status(500).json({ 
+        message: "Failed to send message. Please try again later.",
+        error: emailResult.error.message
+      });
+    }
+    
     // Log success
-    console.log('Email sent successfully');
+    console.log('Email sent successfully with Resend. ID:', emailResult.data?.id);
     
     // Return success response
     return res.status(200).json({

@@ -8,11 +8,16 @@
     "api/debug.ts": {
       "memory": 128,
       "maxDuration": 5
+    },
+    "api/test-resend.ts": {
+      "memory": 128,
+      "maxDuration": 5
     }
   },
   "routes": [
     { "src": "/api/contact", "dest": "/api/contact.ts" },
     { "src": "/api/debug", "dest": "/api/debug.ts" },
+    { "src": "/api/test-resend", "dest": "/api/test-resend.ts" },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/index.html" }
   ],
