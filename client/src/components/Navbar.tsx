@@ -14,8 +14,14 @@ export default function Navbar() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const closeMenu = () => {
-    setIsMobileMenuOpen(false);
+  const scrollToSection = (sectionId: string) => {
+    setIsMobileMenuOpen(false); // Close the menu
+    setTimeout(() => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100); // Small delay to ensure menu closes first
   };
 
   // Handle scroll effect
@@ -47,23 +53,21 @@ export default function Navbar() {
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#about" className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300">
+            <button onClick={() => scrollToSection('about')} className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300">
               About
-            </a>
-            <a href="#services" className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300">
+            </button>
+            <button onClick={() => scrollToSection('services')} className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300">
               Services
-            </a>
-            <a href="#case-studies" className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300">
+            </button>
+            <button onClick={() => scrollToSection('case-studies')} className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300">
               Case Studies
-            </a>
-            <a href="#contact" className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300">
+            </button>
+            <button onClick={() => scrollToSection('contact')} className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300">
               Contact
-            </a>
+            </button>
             <Button 
               className="bg-[#3a1d96] hover:bg-[#2a1570] text-white px-6 py-2 rounded-full"
-              onClick={() => {
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={() => scrollToSection('contact')}
             >
               Get Started
             </Button>
@@ -91,56 +95,33 @@ export default function Navbar() {
               className="md:hidden mt-4 bg-white rounded-lg shadow-lg p-4"
             >
               <div className="flex flex-col space-y-4">
-                <a 
-                  href="#about" 
-                  className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    closeMenu();
-                    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                <button 
+                  className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2 text-left w-full"
+                  onClick={() => scrollToSection('about')}
                 >
                   About
-                </a>
-                <a 
-                  href="#services" 
-                  className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    closeMenu();
-                    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                </button>
+                <button 
+                  className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2 text-left w-full"
+                  onClick={() => scrollToSection('services')}
                 >
                   Services
-                </a>
-                <a 
-                  href="#case-studies" 
-                  className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    closeMenu();
-                    document.getElementById('case-studies')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                </button>
+                <button 
+                  className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2 text-left w-full"
+                  onClick={() => scrollToSection('case-studies')}
                 >
                   Case Studies
-                </a>
-                <a 
-                  href="#contact" 
-                  className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    closeMenu();
-                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                </button>
+                <button 
+                  className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2 text-left w-full"
+                  onClick={() => scrollToSection('contact')}
                 >
                   Contact
-                </a>
+                </button>
                 <Button 
                   className="bg-[#3a1d96] hover:bg-[#2a1570] text-white w-full rounded-full"
-                  onClick={() => {
-                    closeMenu();
-                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                  onClick={() => scrollToSection('contact')}
                 >
                   Get Started
                 </Button>
