@@ -24,6 +24,9 @@ export default function CtaSection() {
               <Button
                 size="lg"
                 className="bg-white text-[#3a1d96] hover:bg-gray-100 font-medium px-8 py-6 rounded-full"
+                onClick={() => {
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
               >
                 Get Started Now
               </Button>
@@ -32,6 +35,9 @@ export default function CtaSection() {
                 variant="outline"
                 size="lg"
                 className="bg-transparent border-2 border-white text-white hover:bg-white/10 font-medium px-8 py-6 rounded-full"
+                onClick={() => {
+                  document.getElementById('case-studies')?.scrollIntoView({ behavior: 'smooth' });
+                }}
               >
                 View Case Studies
               </Button>

@@ -159,7 +159,12 @@ export default function Services() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          <Button className="bg-gradient-primary hover:bg-[#2a1570] text-white font-medium px-8 py-6 rounded-full">
+          <Button 
+            className="bg-gradient-primary hover:bg-[#2a1570] text-white font-medium px-8 py-6 rounded-full"
+            onClick={() => {
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
             Book a Strategy Call
           </Button>
         </motion.div>
