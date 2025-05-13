@@ -122,7 +122,12 @@ export default function CaseStudies() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <Button className="bg-[#1e1e24] hover:bg-[#2d2d36] text-white font-medium px-8 py-6 rounded-full">
+          <Button 
+            className="bg-[#1e1e24] hover:bg-[#2d2d36] text-white font-medium px-8 py-6 rounded-full"
+            onClick={() => {
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
             Become Our Next Success Story
           </Button>
         </motion.div>
