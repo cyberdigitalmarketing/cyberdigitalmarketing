@@ -59,7 +59,12 @@ export default function Navbar() {
             <a href="#contact" className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300">
               Contact
             </a>
-            <Button className="bg-[#3a1d96] hover:bg-[#2a1570] text-white px-6 py-2 rounded-full">
+            <Button 
+              className="bg-[#3a1d96] hover:bg-[#2a1570] text-white px-6 py-2 rounded-full"
+              onClick={() => {
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               Get Started
             </Button>
           </div>
@@ -89,34 +94,53 @@ export default function Navbar() {
                 <a 
                   href="#about" 
                   className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2"
-                  onClick={closeMenu}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    closeMenu();
+                    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                 >
                   About
                 </a>
                 <a 
                   href="#services" 
                   className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2"
-                  onClick={closeMenu}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    closeMenu();
+                    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                 >
                   Services
                 </a>
                 <a 
                   href="#case-studies" 
                   className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2"
-                  onClick={closeMenu}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    closeMenu();
+                    document.getElementById('case-studies')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                 >
                   Case Studies
                 </a>
                 <a 
                   href="#contact" 
                   className="text-gray-800 hover:text-[#3a1d96] transition-colors duration-300 py-2"
-                  onClick={closeMenu}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    closeMenu();
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                 >
                   Contact
                 </a>
                 <Button 
                   className="bg-[#3a1d96] hover:bg-[#2a1570] text-white w-full rounded-full"
-                  onClick={closeMenu}
+                  onClick={() => {
+                    closeMenu();
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                 >
                   Get Started
                 </Button>
