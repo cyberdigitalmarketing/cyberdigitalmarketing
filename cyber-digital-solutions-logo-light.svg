@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 64" width="240" height="64">
+  <!-- Logo Symbol -->
+  <g transform="translate(0,0)">
+    <!-- Abstract circuit board background -->
+    <rect width="64" height="64" rx="8" fill="#2a1570" />
+    
+    <!-- Digital circuit lines -->
+    <path d="M10 20 H30 V40 H50" stroke="#ff3371" stroke-width="2" fill="none" stroke-linecap="round" />
+    <path d="M15 50 H40 V30 H54" stroke="#ff3371" stroke-width="2" fill="none" stroke-linecap="round" />
+    <path d="M35 15 V35 H55" stroke="#ff3371" stroke-width="2" fill="none" stroke-linecap="round" />
+    
+    <!-- Connection points/nodes -->
+    <circle cx="30" cy="20" r="3" fill="#ff3371" />
+    <circle cx="30" cy="40" r="3" fill="#ff3371" />
+    <circle cx="50" cy="40" r="3" fill="#ff3371" />
+    <circle cx="15" cy="50" r="3" fill="#ff3371" />
+    <circle cx="40" cy="50" r="3" fill="#ff3371" />
+    <circle cx="40" cy="30" r="3" fill="#ff3371" />
+    <circle cx="54" cy="30" r="3" fill="#ff3371" />
+    <circle cx="35" cy="15" r="3" fill="#ff3371" />
+    <circle cx="35" cy="35" r="3" fill="#ff3371" />
+    <circle cx="55" cy="35" r="3" fill="#ff3371" />
+    
+    <!-- 'C' letter shape overlay -->
+    <path 
+      d="M32 12c-11.05 0-20 8.95-20 20s8.95 20 20 20c8.84 0 16.34-5.73 19-13.7" 
+      stroke="#ffffff" 
+      stroke-width="5" 
+      fill="none" 
+      stroke-linecap="round"
+    />
+  </g>
+  
+  <!-- Logo Text -->
+  <g transform="translate(78, 28)">
+    <!-- Cyber Digital -->
+    <text 
+      font-family="Arial, sans-serif" 
+      font-size="20" 
+      font-weight="700" 
+      letter-spacing="-0.5px"
+      fill="#ffffff"
+    >
+      Cyber <tspan fill="#ff3371">Digital</tspan>
+    </text>
+    
+    <!-- Solutions -->
+    <text 
+      font-family="Arial, sans-serif" 
+      font-size="12" 
+      font-weight="500"
+      fill="#cccccc"
+      y="16"
+    >
+      Solutions
+    </text>
+  </g>
+</svg>
