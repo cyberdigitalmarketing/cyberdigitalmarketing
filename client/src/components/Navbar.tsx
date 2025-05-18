@@ -48,7 +48,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link href="/">
-              <Logo />
+              <Logo className="py-1" />
             </Link>
           </div>
           
