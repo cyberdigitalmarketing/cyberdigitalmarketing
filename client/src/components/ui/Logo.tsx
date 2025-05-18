@@ -15,7 +15,7 @@ export function Logo({ className, variant = "dark", showText = true }: LogoProps
   
   return (
     <div className={cn("flex items-center gap-3", className)}>
-      <div className={cn("relative h-9 w-9", variant === "light" ? "bg-opacity-20 rounded-lg" : "")}>
+      <div className={cn("relative h-12 w-12 md:h-14 md:w-14", variant === "light" ? "bg-opacity-20 rounded-lg" : "")}>
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
           viewBox="0 0 64 64" 
@@ -55,10 +55,10 @@ export function Logo({ className, variant = "dark", showText = true }: LogoProps
       
       {showText && (
         <div className="flex flex-col">
-          <span className={cn("text-lg font-bold leading-none tracking-tight", textColorClass)}>
+          <span className={cn("text-xl md:text-2xl font-bold leading-none tracking-tight", textColorClass)}>
             Cyber <span className="text-[#ff3371]">Digital</span>
           </span>
-          <span className={cn("text-xs font-medium", variant === "light" ? "text-gray-300" : "text-gray-700")}>
+          <span className={cn("text-sm md:text-base font-medium", variant === "light" ? "text-gray-300" : "text-gray-700")}>
             Marketing
           </span>
         </div>
